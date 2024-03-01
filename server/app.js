@@ -13,8 +13,15 @@ app.get('/test', (req, res) => {
   res.send('<h1>Test</h1>')
 });
 
-io.on('/connection', (socket) => {
-  console.log('connection', connection);
+io.on('connection', (socket) => {
+  // console.log('connection', socket);
+
+  socket.emit('chat', 'Hello world!');
+
+  socket.on('chat', (arg) => {
+    console.log('incoming chat', arg);
+    io.emit('chat', arg);
+  })
 })
 
 server.listen(3000);
